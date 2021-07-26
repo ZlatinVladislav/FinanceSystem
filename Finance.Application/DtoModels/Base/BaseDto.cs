@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Finance.Application.DtoModels.Base
+namespace FinanceSystem.Application.DtoModels.Base
 {
     public class BaseDto
     {

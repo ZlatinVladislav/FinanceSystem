@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Finance.Application.DtoModels.Base;
-using Finance.Application.DtoModels.User;
+using FinanceSystem.Application.DtoModels.Base;
 
-namespace Finance.Application.DtoModels.Transaction
+namespace FinanceSystem.Application.DtoModels.Transaction
 {
     public class TransactionDto : BaseDto
     {
@@ -21,8 +20,5 @@ namespace Finance.Application.DtoModels.Transaction
 
         [Required]
         public DateTime? DateTransaction { get; set; }
-
-        public UserProfileDto? UserProfileDto { get; set; }
-        public Domain.Models.Bank? BankDto { get; set; }
     }
 }

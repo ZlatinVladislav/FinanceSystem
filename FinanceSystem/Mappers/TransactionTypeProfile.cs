@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Finance.Application.DtoModels.TransactionType;
-using Finance.Domain.Models;
+using FinanceSystem.Application.DtoModels.TransactionType;
+using FinanceSystem.Infrastructure.Models;
 
-namespace Finance.Application.Mappers
+namespace FinanceSystem.Application.Mappers
 {
     public class TransactionTypeProfile : Profile
     {

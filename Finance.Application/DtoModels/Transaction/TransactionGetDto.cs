@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using Finance.Application.DtoModels.Bank;
-using Finance.Application.DtoModels.Base;
-using Finance.Application.DtoModels.User;
+using FinanceSystem.Application.DtoModels.Base;
 
-namespace Finance.Application.DtoModels.Transaction
+namespace FinanceSystem.Application.DtoModels.Transaction
 {
     public class TransactionGetDto : BaseDto
     {
@@ -13,7 +10,5 @@ namespace Finance.Application.DtoModels.Transaction
         public string TransactionType { get; set; }
         public bool IsCanceled { get; set; }
         public DateTime? DateTransaction { get; set; }
-        public UserProfileDto? UserProfileDto { get; set; }
-        public ICollection<BankDto> BankDto { get; set; }
     }
 }

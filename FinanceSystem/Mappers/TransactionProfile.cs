@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Finance.Application.DtoModels.Transaction;
-using Finance.Application.DtoModels.TransactionType;
-using Finance.Domain.Models;
+using FinanceSystem.Application.DtoModels.Transaction;
+using FinanceSystem.Application.DtoModels.TransactionType;
+using FinanceSystem.Infrastructure.Models;
 
-namespace Finance.Application.Mappers
+namespace FinanceSystem.Application.Mappers
 {
     public class TransactionProfile : Profile
     {
@@ -15,20 +15,14 @@ namespace Finance.Application.Mappers
                 .ReverseMap();
 
             CreateMap<Transaction, TransactionGetDto>()
-                .ForMember(dest => dest.UserProfileDto, opt => opt.MapFrom(src => src.AppUser))
                 .ForMember(dest => dest.TransactionType,
                     opt => opt.MapFrom(src => src.TransactionType.TransactionTypes))
-                .ForMember(dest => dest.BankDto, opt => opt.MapFrom(src => src.Banks))
                 .ReverseMap();
 
 
             CreateMap<TransactionDto, Transaction>()
                 .ForMember(dest => dest.TransactionTypeId, opt => opt.MapFrom(src => src.TransactionTypeId))
-                .ForMember(dest => dest.AppUserId, opt => opt.MapFrom(src => src.UserProfileDto))
-                .ForMember(dest => dest.Banks, opt => opt.MapFrom(src => src.BankDto))
                 .ReverseMap();
-
-            CreateMap<Transaction, Transaction>().ReverseMap();
         }
     }
 }

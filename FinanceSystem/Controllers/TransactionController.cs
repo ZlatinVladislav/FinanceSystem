@@ -1,55 +1,81 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Finance.Application.CQRS.Commands.TransactionCommands;
-using Finance.Application.CQRS.Querries.Transaction;
-using Finance.Application.DtoModels.Transaction;
-using Finance.Application.Services.Pagination;
-using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using FinanceSystem.Application.DtoModels.Transaction;
+using FinanceSystem.Application.Interfaces.Base;
+using FinanceSystem.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Finance.Controllers
+namespace FinanceSystem.Controllers
 {
     public class TransactionController : BaseApiController
     {
-        [Authorize(Policy = "TransactionByIdRequirement")]
+        private readonly IGenericAction<Transaction> _genericAction;
+        private readonly IMapper _mapper;
+
+        public TransactionController( IGenericAction<Transaction> genericAction, IMapper mapper)
+        {
+            _genericAction = genericAction;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllTransactions()
+        {
+            var transactions = _genericAction.GetAll();
+            if (transactions.Result == null) return NotFound();
+            var result = _mapper.Map<IEnumerable<TransactionGetDto>>(transactions.Result);
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransactionById(Guid id)
         {
-            return HandleResult(await Mediator.Send(new TransactionDetails.Query {Id = id}));
+            var transaction = _genericAction.GetById(id);
+            if (transaction.Result == null) return NotFound();
+            var result = _mapper.Map<TransactionGetDto>(transaction.Result);
+            return Ok(result);
         }
-        
-        [HttpGet]
-        public async Task<IActionResult> GetAllTransactions([FromQuery] TransactionParams param)
-        {
-            return HandlePageResult(await Mediator.Send(new TransactionList.Query {Params = param}));
-        }
-        
+
         [HttpPost]
         public async Task<IActionResult> AddTransaction(TransactionDto model)
         {
-            return HandleResult(await Mediator.Send(new TransactionCreate.Command {TransactionDto = model}));
+            var transaction = _mapper.Map<Transaction>(model);
+             
+            if(!await _genericAction.Post(transaction))
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(model);
         }
 
-        [Authorize(Policy = "TransactionByIdRequirement")]
-        [HttpPost("{id}/cancel")]
-        public async Task<IActionResult> CancellTransaction(Guid id)
-        {
-            return HandleResult(await Mediator.Send(new TransactionCancel.Command {Id = id}));
-        }
-
-        [Authorize(Policy = "TransactionByIdRequirement")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditTransaction(Guid id, TransactionDto model)
         {
             model.Id = id;
-            return HandleResult(await Mediator.Send(new TransactionEdit.Command {TransactionDto = model}));
+            var transaction = _mapper.Map<Transaction>(model);
+            if (!await _genericAction.Put(transaction))
+            {
+                return StatusCode(500);
+            }
+
+            return NoContent();
         }
 
-        [Authorize(Policy = "TransactionByIdRequirement")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(Guid id)
         {
-            return HandleResult(await Mediator.Send(new TransactionDelete.Command {Id = id}));
+            var transaction = _genericAction.GetById(id);
+            if (transaction.Result == null) return NotFound();
+
+            if (!await _genericAction.Delete(id))
+            {
+                return StatusCode(500);
+            }
+
+            return NoContent();
         }
     }
 }
