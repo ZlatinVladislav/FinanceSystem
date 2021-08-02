@@ -1,4 +1,4 @@
-﻿namespace Finance.Application.DtoModels.User
+﻿namespace FinanceSystem.DtoModels.User
 {
     public class LogInDto
     {

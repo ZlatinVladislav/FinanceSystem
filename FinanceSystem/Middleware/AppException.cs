@@ -1,4 +1,4 @@
-﻿namespace Finance.Middleware
+﻿namespace FinanceSystem.Middleware
 {
     public class AppException
     {

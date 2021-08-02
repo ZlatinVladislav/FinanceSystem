@@ -1,6 +1,6 @@
-﻿using Finance.Domain.Models;
+﻿using FinanceSystem.Infrastructure.Models;
 
-namespace Finance.Application.Interfaces
+namespace FinanceSystem.Application.Interfaces
 {
     public interface ITokenService
     {

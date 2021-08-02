@@ -1,4 +1,4 @@
-﻿namespace Finance.Infrastructure.Data.Interfaces
+﻿namespace FinanceSystem.Infrastructure.Interfaces
 {
     public interface IUserAccesor
     {

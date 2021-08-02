@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using Finance.Infrastructure.Data.Interfaces;
+using FinanceSystem.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Finance.Application.Services.Security.Base
+namespace FinanceSystem.Application.Services.Security.Base
 {
     public class UserAccessor : IUserAccesor
     {

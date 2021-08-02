@@ -1,7 +1,7 @@
-﻿using Finance.Middleware.Implementation;
+﻿using FinanceSystem.Middleware.Implementation;
 using Microsoft.AspNetCore.Builder;
 
-namespace Finance.Middleware
+namespace FinanceSystem.Middleware
 {
     public static class StoreEventIdMiddlewareExtensions
     {
@@ -10,9 +10,9 @@ namespace Finance.Middleware
             return app.UseMiddleware<ExceptionMiddleware>();
         }
 
-        public static IApplicationBuilder UseErrorLoggingMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder UseLogRequestMiddleware(this IApplicationBuilder app)
         {
-            return app.UseMiddleware<ErrorLoggingMiddleware>();
+            return app.UseMiddleware<LogRequestMiddleware>();
         }
     }
 }

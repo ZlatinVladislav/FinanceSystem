@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using FinanceSystem.Application.DtoModels.Transaction;
 using FinanceSystem.Application.Interfaces.Base;
+using FinanceSystem.Controllers.Base;
+using FinanceSystem.DtoModels.Transaction;
 using FinanceSystem.Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceSystem.Controllers
@@ -14,12 +16,13 @@ namespace FinanceSystem.Controllers
         private readonly IGenericAction<Transaction> _genericAction;
         private readonly IMapper _mapper;
 
-        public TransactionController( IGenericAction<Transaction> genericAction, IMapper mapper)
+        public TransactionController(IGenericAction<Transaction> genericAction, IMapper mapper)
         {
             _genericAction = genericAction;
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllTransactions()
         {
@@ -34,7 +37,7 @@ namespace FinanceSystem.Controllers
         {
             var transaction = _genericAction.GetById(id);
             if (transaction.Result == null) return NotFound();
-            var result = _mapper.Map<TransactionGetDto>(transaction.Result);
+            var result = _mapper.Map<TransactionType>(transaction.Result);
             return Ok(result);
         }
 
@@ -42,11 +45,8 @@ namespace FinanceSystem.Controllers
         public async Task<IActionResult> AddTransaction(TransactionDto model)
         {
             var transaction = _mapper.Map<Transaction>(model);
-             
-            if(!await _genericAction.Post(transaction))
-            {
-                return StatusCode(500);
-            }
+
+            if (!await _genericAction.Post(transaction)) return BadRequest();
 
             return Ok(model);
         }
@@ -56,24 +56,19 @@ namespace FinanceSystem.Controllers
         {
             model.Id = id;
             var transaction = _mapper.Map<Transaction>(model);
-            if (!await _genericAction.Put(transaction))
-            {
-                return StatusCode(500);
-            }
+            if (!await _genericAction.Put(transaction)) return BadRequest();
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(Guid id)
         {
             var transaction = _genericAction.GetById(id);
             if (transaction.Result == null) return NotFound();
 
-            if (!await _genericAction.Delete(id))
-            {
-                return StatusCode(500);
-            }
+            if (!await _genericAction.Delete(id)) return BadRequest();
 
             return NoContent();
         }

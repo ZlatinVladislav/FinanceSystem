@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using FinanceSystem.Application.DtoModels.Base;
+using FinanceSystem.DtoModels.Base;
 
-namespace FinanceSystem.Application.DtoModels.Transaction
+namespace FinanceSystem.DtoModels.Transaction
 {
     public class TransactionDto : BaseDto
     {

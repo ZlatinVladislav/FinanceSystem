@@ -10,6 +10,7 @@ namespace FinanceSystem.Infrastructure.Context
         {
         }
 
+        public DbSet<AppUser> AppUser { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<TransactionType> TransactionType { get; set; }
 

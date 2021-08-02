@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceSystem.Controllers
+namespace FinanceSystem.Controllers.Base
 {
     [ApiController]
     [Route("api/[controller]")]

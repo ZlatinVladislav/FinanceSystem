@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Finance.Application.Interfaces;
-using Finance.Domain.Models;
+using FinanceSystem.Application.Interfaces;
+using FinanceSystem.Infrastructure.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Finance.Application.Services.Security.Base
+namespace FinanceSystem.Application.Services.Security.Base
 {
     public class TokenService : ITokenService
     {
@@ -23,9 +23,10 @@ namespace Finance.Application.Services.Security.Base
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email)
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));

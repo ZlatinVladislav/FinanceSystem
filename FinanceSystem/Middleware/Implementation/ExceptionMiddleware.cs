@@ -4,20 +4,17 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace Finance.Middleware.Implementation
+namespace FinanceSystem.Middleware.Implementation
 {
     public class ExceptionMiddleware
     {
         private readonly IHostEnvironment _env;
-        private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly RequestDelegate _next;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+        public ExceptionMiddleware(RequestDelegate next, IHostEnvironment env)
         {
             _next = next;
-            _logger = logger;
             _env = env;
         }
 
@@ -29,7 +26,6 @@ namespace Finance.Middleware.Implementation
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
                 httpContext.Response.ContentType = "application/json";
                 httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 

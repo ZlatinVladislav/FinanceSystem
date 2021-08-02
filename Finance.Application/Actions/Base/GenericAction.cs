@@ -3,12 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanceSystem.Application.Interfaces.Base;
 using FinanceSystem.Infrastructure.Interfaces.Base;
-using FinanceSystem.Infrastructure.Models;
 using FinanceSystem.Infrastructure.Models.Base;
 
-namespace FinanceSystem.Application.Actions
+namespace FinanceSystem.Application.Actions.Base
 {
-    public class GenericAction <TEntity> : IGenericAction<TEntity> where TEntity : BaseEntity
+    public class GenericAction<TEntity> : IGenericAction<TEntity> where TEntity : BaseEntity
     {
         private readonly IBaseRepository<TEntity> _baseRepository;
 

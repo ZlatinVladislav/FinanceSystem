@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Finance.Infrastructure.Data.Interfaces;
+using FinanceSystem.Application.Interfaces.Base;
+using FinanceSystem.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace Finance.Application.Services.Security
+namespace FinanceSystem.Application.Services.Security
 {
     public class TransactionByIdRequirement : IAuthorizationRequirement
     {
@@ -14,14 +14,14 @@ namespace Finance.Application.Services.Security
 
     public class IsUserRequirementHandler : AuthorizationHandler<TransactionByIdRequirement>
     {
+        private readonly IGenericAction<Transaction> _genericAction;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ITransactionRepository _transactionRepository;
 
         public IsUserRequirementHandler(IHttpContextAccessor httpContextAccessor,
-            ITransactionRepository transactionRepository)
+            IGenericAction<Transaction> genericAction)
         {
-            _transactionRepository = transactionRepository;
             _httpContextAccessor = httpContextAccessor;
+            _genericAction = genericAction;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
@@ -30,10 +30,9 @@ namespace Finance.Application.Services.Security
             var userId = context.User.FindFirst(ClaimTypes.NameIdentifier);
             if (userId == null) return Task.CompletedTask;
 
-            var transactionId = Guid.Parse(_httpContextAccessor.HttpContext?.Request.RouteValues
-                .SingleOrDefault(x => x.Key == "id").Value.ToString());
+            var transactionId = new Guid();
 
-            var transaction = _transactionRepository.GetTransactionsForeignDataByIdNoTracking(transactionId).Result;
+            var transaction = _genericAction.GetById(transactionId).Result;
 
             if (transaction == null) return Task.CompletedTask;
 

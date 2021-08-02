@@ -1,6 +1,6 @@
-﻿using FinanceSystem.Application.DtoModels.Base;
+﻿using FinanceSystem.DtoModels.Base;
 
-namespace FinanceSystem.Application.DtoModels.TransactionType
+namespace FinanceSystem.DtoModels.TransactionType
 {
     public class TransactionTypeDto : BaseDto
     {

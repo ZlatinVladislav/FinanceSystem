@@ -1,7 +1,7 @@
 ﻿using System;
-using FinanceSystem.Application.DtoModels.Base;
+using FinanceSystem.DtoModels.Base;
 
-namespace FinanceSystem.Application.DtoModels.Transaction
+namespace FinanceSystem.DtoModels.Transaction
 {
     public class TransactionGetDto : BaseDto
     {

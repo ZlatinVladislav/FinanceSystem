@@ -11,5 +11,7 @@ namespace FinanceSystem.Infrastructure.Models
         public virtual TransactionType TransactionType { get; set; }
         public bool IsCanceled { get; set; }
         public DateTime? DateTransaction { get; set; } = DateTime.Now;
+        public string AppUserId { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }

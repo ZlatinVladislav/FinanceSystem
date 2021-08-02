@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Finance.Application.DtoModels.User
+namespace FinanceSystem.DtoModels.User
 {
     public class RegisterDto
     {
@@ -16,5 +16,8 @@ namespace Finance.Application.DtoModels.User
 
         [Required]
         public string Username { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }
